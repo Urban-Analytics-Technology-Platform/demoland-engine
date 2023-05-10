@@ -339,12 +339,12 @@ def get_signature_values(
     return (exvars, n_jobs_diff, newly_allocated_gs)
 
 
-def get_data(df):
+def get_data(df, random_seed=None):
     exvars = []
     jobs_diff = []
     gs_diff = []
     for vals in df.itertuples(name=None):
-        ex, j, gs = get_signature_values(*vals)
+        ex, j, gs = get_signature_values(*vals, random_seed=random_seed)
         exvars.append(ex)
         jobs_diff.append(j)
         gs_diff.append(gs)

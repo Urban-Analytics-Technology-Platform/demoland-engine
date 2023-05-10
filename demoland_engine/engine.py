@@ -13,7 +13,7 @@ empty = pd.read_parquet(root.joinpath("empty.parquet"))
 
 
 class Engine:
-    def __init__(self, initial_state) -> None:
+    def __init__(self, initial_state, random_seed=None) -> None:
         """Initialise the class and get the baseline indicators
 
         Parameters
@@ -21,10 +21,14 @@ class Engine:
         initial_state : pandas.DataFrame
             DataFrame with specification of the initial state.
         """
-        with open(root.joinpath("air_quality_predictor_gb.pickle"), "rb") as f:
+        with open(
+            root.joinpath("air_quality_predictor_nc_urbanities.pickle"), "rb"
+        ) as f:
             self.air_quality_predictor = pickle.load(f)
 
-        with open(root.joinpath("house_price_predictor_gb.pickle"), "rb") as f:
+        with open(
+            root.joinpath("house_price_predictor_england_no_london.pickle"), "rb"
+        ) as f:
             self.house_price_predictor = pickle.load(f)
 
         with open(root.joinpath("accessibility.joblib"), "rb") as f:
@@ -35,8 +39,11 @@ class Engine:
             .merge(initial_state, left_on="lsoa", right_index=True, how="left")
             .drop(columns="lsoa")
         )
+        self.random_seed = random_seed
 
-        self.vars, self.jobs, self.gsp = get_data(self.variable_state)
+        self.vars, self.jobs, self.gsp = get_data(
+            self.variable_state, random_seed=self.random_seed
+        )
 
         self.predict()
 
@@ -59,7 +66,7 @@ class Engine:
         jobs_diff = []
         gs_diff = []
         for vals in self.variable_state.loc[affected_oa].itertuples(name=None):
-            ex, j, gs = get_signature_values(*vals)
+            ex, j, gs = get_signature_values(*vals, random_seed=self.random_seed)
             exvars.append(ex)
             jobs_diff.append(j)
             gs_diff.append(gs)

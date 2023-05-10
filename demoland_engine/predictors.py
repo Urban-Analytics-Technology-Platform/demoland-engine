@@ -7,12 +7,6 @@ from .sampling import get_data
 
 root = files("demoland_engine.data")
 
-with open(root.joinpath("air_quality_predictor_gb.pickle"), "rb") as f:
-    air_quality_predictor = pickle.load(f)
-
-with open(root.joinpath("house_price_predictor_gb.pickle"), "rb") as f:
-    house_price_predictor = pickle.load(f)
-
 with open(root.joinpath("accessibility.joblib"), "rb") as f:
     accessibility = joblib.load(f)
 
@@ -73,13 +67,18 @@ def get_indicators(df):
     DataFrame
         DataFrame containing the resulting indicators
     """
+    with open(root.joinpath("air_quality_predictor_nc_urbanities.pickle"), "rb") as f:
+        air_quality_predictor = pickle.load(f)
+
+    with open(
+        root.joinpath("house_price_predictor_england_no_london.pickle"), "rb"
+    ) as f:
+        house_price_predictor = pickle.load(f)
+
     vars, jobs, gsp = get_data(df)
-    aq = air_quality_predictor.predict(
-        vars.rename(columns={"population_estimate": "population"})
-    )
-    hp = house_price_predictor.predict(
-        vars.rename(columns={"population_estimate": "population"})
-    )
+    vars = vars.rename(columns={"population_estimate": "population"})
+    aq = air_quality_predictor.predict(vars)
+    hp = house_price_predictor.predict(vars)
     ja = accessibility.job_accessibility(jobs, "walk")
     gs = accessibility.greenspace_accessibility(gsp, "walk")
     ja = ja.to_pandas()[df.index].values
