@@ -271,8 +271,6 @@ def get_signature_values(
         "O,P,Q. Public administration, education and health",
         "R, S, T, U. Other",
     ]
-    orig_n_jobs = oa.loc[oa_code][jobs].sum()
-    n_jobs_diff = defaults[jobs].sum() - orig_n_jobs
 
     # greenspace
     if greenspace:
@@ -283,6 +281,10 @@ def get_signature_values(
 
     if job_types:
         defaults = _job_types(defaults, job_types)
+
+    orig_n_jobs = oa.loc[oa_code][jobs].sum()
+    n_jobs_diff = defaults[jobs].sum() - orig_n_jobs
+
     df = pd.concat([defaults, form])
 
     order = [
