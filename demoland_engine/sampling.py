@@ -95,7 +95,7 @@ def _populations(defaults, index):
     defaults.population = defaults.population - difference
     multiplier = new_n_jobs / n_jobs
     defaults[jobs] = defaults[jobs] * multiplier
-    return defaults, new_n_jobs
+    return defaults
 
 
 def _greenspace(defaults, index):
@@ -259,9 +259,20 @@ def get_signature_values(
 
     # population
     if use:
-        defaults, n_jobs_diff = _populations(defaults, index=use)
-    else:
-        n_jobs_diff = 0
+        defaults = _populations(defaults, index=use)
+
+    jobs = [
+        "A, B, D, E. Agriculture, energy and water",
+        "C. Manufacturing",
+        "F. Construction",
+        "G, I. Distribution, hotels and restaurants",
+        "H, J. Transport and communication",
+        "K, L, M, N. Financial, real estate, professional and administrative activities",  # noqa
+        "O,P,Q. Public administration, education and health",
+        "R, S, T, U. Other",
+    ]
+    orig_n_jobs = oa.loc[oa_code][jobs].sum()
+    n_jobs_diff = defaults[jobs].sum() - orig_n_jobs
 
     # greenspace
     if greenspace:
