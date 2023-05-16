@@ -17,7 +17,7 @@ with open(root.joinpath("accessibility.joblib"), "rb") as f:
     accessibility = joblib.load(f)
 
 
-def get_indicators(df, mode="walk"):
+def get_indicators(df, mode="walk", random_seed=None):
     """Get indicators for all OAs based on 4 variables
 
     Parameters
@@ -75,7 +75,7 @@ def get_indicators(df, mode="walk"):
     DataFrame
         DataFrame containing the resulting indicators
     """
-    vars, jobs, gsp = get_data(df)
+    vars, jobs, gsp = get_data(df, random_seed=random_seed)
     vars = vars.rename(columns={"population_estimate": "population"})
     aq = air_quality_predictor.predict(vars)
     hp = house_price_predictor.predict(vars)
