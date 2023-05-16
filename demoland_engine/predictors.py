@@ -17,7 +17,7 @@ with open(root.joinpath("accessibility.joblib"), "rb") as f:
     accessibility = joblib.load(f)
 
 
-def get_indicators(df):
+def get_indicators(df, mode="walk"):
     """Get indicators for all OAs based on 4 variables
 
     Parameters
@@ -66,6 +66,8 @@ def get_indicators(df):
                 Float in a range 0...1 reflecting the balance of job types in the
                 area between entirely blue collar jobs (0) and entirely white collar
                 jobs (1).
+    mode : str, default "walk"
+        Accessibility mode. One of {"transit", "car", "bike", "walk"}
 
 
     Returns
@@ -77,8 +79,8 @@ def get_indicators(df):
     vars = vars.rename(columns={"population_estimate": "population"})
     aq = air_quality_predictor.predict(vars)
     hp = house_price_predictor.predict(vars)
-    ja = accessibility.job_accessibility(jobs, "walk")
-    gs = accessibility.greenspace_accessibility(gsp, "walk")
+    ja = accessibility.job_accessibility(jobs, mode)
+    gs = accessibility.greenspace_accessibility(gsp, mode)
     ja = ja.to_pandas()[df.index].values
     gs = gs.to_pandas()[df.index].values
 
