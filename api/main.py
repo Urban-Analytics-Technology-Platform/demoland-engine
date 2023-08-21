@@ -2,13 +2,19 @@ import json
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
 
 import demoland_engine
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173",
+                   "https://alan-turing-institute.github.io"],
+    allow_methods=["POST"],
+)
 
 class ScenarioJSON(BaseModel):
     scenario_json: dict
