@@ -1,4 +1,4 @@
-import json
+import os
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -9,21 +9,38 @@ import demoland_engine
 
 app = FastAPI()
 
+AZURE = os.getenv("WEBSITE_SITE_NAME") == "demoland-api"
+if AZURE:
+    print("Running on Azure")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",
-                   "https://alan-turing-institute.github.io"],
     allow_methods=["POST"],
+    allow_origins=(["https://alan-turing-institute.github.io"]
+                   if AZURE else ["http://localhost:5173"]),
 )
 
 class ScenarioJSON(BaseModel):
     scenario_json: dict
 
+@app.get("/")
+async def root_GET():
+    """
+    Returns a simple message. Azure periodically sends a request to this
+    endpoint to check that the API is running.
+    """
+    return {"message": "Hello world from demoland-api!"}
 
 @app.post("/")
-async def root(
+async def root_POST(
     scenario_json: ScenarioJSON,
 ):
+    """
+    Returns a JSON object with the predicted indicator values and signature
+    types for each OA.
+
+    See the `docker_usage.ipynb` notebook for example Python usage.
+    """
     scenario = scenario_json.scenario_json
     df = demoland_engine.get_empty()
     for oa_code, vals in scenario.items():
