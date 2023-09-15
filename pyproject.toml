@@ -30,6 +30,9 @@ dependencies = [
     "scikit-learn==1.2.0",
 ]
 
+[project.optional-dependencies]
+api = ["fastapi", "uvicorn"]
+
 [project.urls]
 Home = "https://github.com/martinfleis/demoland_engine"
 Repository = "https://github.com/martinfleis/demoland_engine"
