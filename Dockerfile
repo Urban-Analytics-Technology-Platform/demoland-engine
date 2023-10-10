@@ -2,6 +2,17 @@ FROM python:3.11
 
 WORKDIR /code
 
+# SSH
+COPY entrypoint.sh ./
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends dialog \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && echo "root:Docker!" | chpasswd \
+    && chmod u+x ./entrypoint.sh
+COPY sshd_config /etc/ssh/
+EXPOSE 8000 2222
+
+# Python
 RUN pip install --no-cache-dir --upgrade \
     fastapi \
     pydantic \
@@ -13,9 +24,8 @@ RUN pip install --no-cache-dir --upgrade \
     pyarrow==11.0.0 \
     scikit-learn==1.2.0 \
     setuptools_scm
-
 COPY ./demoland_engine /code/demoland_engine
 COPY ./pyproject.toml /code/pyproject.toml
 COPY ./api /code
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+ENTRYPOINT ["./entrypoint.sh"]
