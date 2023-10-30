@@ -214,7 +214,19 @@ def get_signature_values(
     -------
     Series
     """
-    if signature_type is not None:
+    if(np.isnan(signature_type)):
+        signature_type= None
+
+    if(np.isnan(use)):
+        use = None
+
+    if(np.isnan(greenspace)):
+        greenspace=None 
+
+    if(np.isnan(job_types)):
+        job_types=None
+
+    if signature_type is not None :
         signature_type = SIGS[signature_type]
     orig_type = oa_key.primary_type[oa_code]
     if signature_type is not None and orig_type != signature_type:
