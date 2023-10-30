@@ -12,7 +12,8 @@ RUN pip install --no-cache-dir --upgrade \
     xarray==2023.1.0 \
     pyarrow==11.0.0 \
     scikit-learn==1.2.0 \
-    setuptools_scm
+    setuptools_scm \
+    pooch
 
 COPY ./demoland_engine /code/demoland_engine
 COPY ./pyproject.toml /code/pyproject.toml
