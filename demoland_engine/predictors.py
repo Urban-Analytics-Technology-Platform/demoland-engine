@@ -1,19 +1,17 @@
-from importlib.resources import files
 import pickle
 import joblib
 import pandas as pd
 
 from .sampling import get_data
+from .data import CACHE
 
-root = files("demoland_engine.data")
-
-with open(root.joinpath("air_quality_predictor_nc_urbanities.pickle"), "rb") as f:
+with open(CACHE.fetch("air_quality_predictor"), "rb") as f:
     air_quality_predictor = pickle.load(f)
 
-with open(root.joinpath("house_price_predictor_england_no_london.pickle"), "rb") as f:
+with open(CACHE.fetch("house_price_predictor"), "rb") as f:
     house_price_predictor = pickle.load(f)
 
-with open(root.joinpath("accessibility.joblib"), "rb") as f:
+with open(CACHE.fetch("accessibility"), "rb") as f:
     accessibility = joblib.load(f)
 
 
@@ -76,7 +74,6 @@ def get_indicators(df, mode="walk", random_seed=None):
         DataFrame containing the resulting indicators
     """
     vars, jobs, gsp = get_data(df, random_seed=random_seed)
-    vars = vars.rename(columns={"population_estimate": "population"})
     aq = air_quality_predictor.predict(vars)
     hp = house_price_predictor.predict(vars)
     ja = accessibility.job_accessibility(jobs, mode)
@@ -151,8 +148,8 @@ def get_indicators_lsoa(df):
     DataFrame
         DataFrame containing the resulting indicators
     """
-    empty = pd.read_parquet(root.joinpath("empty.parquet"))
-    lsoa_oa = pd.read_parquet(root.joinpath("oa_lsoa.parquet"))
+    empty = pd.read_parquet(CACHE.fetch("empty.parquet"))
+    lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa.parquet"))
 
     merged = (
         empty.assign(lsoa=lsoa_oa.lsoa11cd)[["lsoa"]]

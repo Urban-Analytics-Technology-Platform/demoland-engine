@@ -1,18 +1,15 @@
-from importlib.resources import files
-
 import numpy as np
 import pandas as pd
 
+from .data import CACHE
 
-root = files("demoland_engine.data")
-
-median_form = pd.read_parquet(root.joinpath("median_form.parquet"))
-iqr_form = pd.read_parquet(root.joinpath("iqr_form.parquet"))
-median_function = pd.read_parquet(root.joinpath("median_function.parquet"))
-iqr_function = pd.read_parquet(root.joinpath("iqr_function.parquet"))
-oa_key = pd.read_parquet(root.joinpath("oa_key.parquet"))
-oa_area = pd.read_parquet(root.joinpath("oa_area.parquet")).area
-default_data = pd.read_parquet(root.joinpath("default_data.parquet"))
+median_form = pd.read_parquet(CACHE.fetch("median_form"))
+iqr_form = pd.read_parquet(CACHE.fetch("iqr_form"))
+median_function = pd.read_parquet(CACHE.fetch("median_function"))
+iqr_function = pd.read_parquet(CACHE.fetch("iqr_function"))
+oa_key = pd.read_parquet(CACHE.fetch("oa_key"))
+oa_area = pd.read_parquet(CACHE.fetch("oa_area")).area
+default_data = pd.read_parquet(CACHE.fetch("default_data"))
 
 
 SIGS = {

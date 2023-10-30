@@ -1,15 +1,13 @@
 import pickle
-from importlib.resources import files
 import joblib
 import pandas as pd
 
 from .sampling import get_data, get_signature_values
+from .data import CACHE
 
-root = files("demoland_engine.data")
-
-lsoa_oa = pd.read_parquet(root.joinpath("oa_lsoa.parquet"))
-lsoa_input = pd.read_parquet(root.joinpath("empty_lsoa.parquet"))
-empty = pd.read_parquet(root.joinpath("empty.parquet"))
+lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa"))
+lsoa_input = pd.read_parquet(CACHE.fetch("empty_lsoa"))
+empty = pd.read_parquet(CACHE.fetch("empty"))
 
 
 class Engine:
@@ -21,17 +19,13 @@ class Engine:
         initial_state : pandas.DataFrame
             DataFrame with specification of the initial state.
         """
-        with open(
-            root.joinpath("air_quality_predictor_nc_urbanities.pickle"), "rb"
-        ) as f:
+        with open(CACHE.fetch("air_quality_predictor"), "rb") as f:
             self.air_quality_predictor = pickle.load(f)
 
-        with open(
-            root.joinpath("house_price_predictor_england_no_london.pickle"), "rb"
-        ) as f:
+        with open(CACHE.fetch("house_price_predictor"), "rb") as f:
             self.house_price_predictor = pickle.load(f)
 
-        with open(root.joinpath("accessibility.joblib"), "rb") as f:
+        with open(CACHE.fetch("accessibility"), "rb") as f:
             self.accessibility = joblib.load(f)
 
         self.variable_state = (
