@@ -11,6 +11,7 @@ RUN apt-get update \
     && chmod u+x ./entrypoint.sh
 COPY sshd_config /etc/ssh/
 EXPOSE 8000 2222
+EXPOSE 80 80
 
 # Python
 RUN pip install --no-cache-dir --upgrade \
@@ -23,7 +24,8 @@ RUN pip install --no-cache-dir --upgrade \
     xarray==2023.1.0 \
     pyarrow==11.0.0 \
     scikit-learn==1.2.0 \
-    setuptools_scm
+    setuptools_scm \
+    pooch==1.8.0
 COPY ./demoland_engine /code/demoland_engine
 COPY ./pyproject.toml /code/pyproject.toml
 COPY ./api /code
