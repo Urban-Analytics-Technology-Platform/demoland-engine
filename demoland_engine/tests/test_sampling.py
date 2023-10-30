@@ -67,9 +67,9 @@ def test_get_signature_values():
                 0.025662291618596556,
                 0.0009580881791989017,
             ],
-            dtype=object,
+            dtype=float,
             index=[
-                "population_estimate",
+                "population",
                 "A, B, D, E. Agriculture, energy and water",
                 "C. Manufacturing",
                 "F. Construction",
@@ -211,7 +211,7 @@ def test_get_signature_values_custom():
             ],
             dtype=float,
             index=[
-                "population_estimate",
+                "population",
                 "A, B, D, E. Agriculture, energy and water",
                 "C. Manufacturing",
                 "F. Construction",

@@ -10,13 +10,9 @@ median_form = pd.read_parquet(root.joinpath("median_form.parquet"))
 iqr_form = pd.read_parquet(root.joinpath("iqr_form.parquet"))
 median_function = pd.read_parquet(root.joinpath("median_function.parquet"))
 iqr_function = pd.read_parquet(root.joinpath("iqr_function.parquet"))
-oa = (
-    pd.read_parquet(root.joinpath("all_oa.parquet"))
-    .set_index("geo_code")
-    .rename(columns={"population_estimate": "population"})
-)
 oa_key = pd.read_parquet(root.joinpath("oa_key.parquet"))
 oa_area = pd.read_parquet(root.joinpath("oa_area.parquet")).area
+default_data = pd.read_parquet(root.joinpath("default_data.parquet"))
 
 
 SIGS = {
@@ -254,8 +250,8 @@ def get_signature_values(
         defaults[area_weighted] = defaults[area_weighted] * oa_area[oa_code]
 
     else:
-        form = oa.loc[oa_code][median_form.columns]
-        defaults = oa.loc[oa_code][median_function.columns]
+        form = default_data.loc[oa_code][median_form.columns]
+        defaults = default_data.loc[oa_code][median_function.columns]
 
     # population
     if use:
@@ -282,7 +278,7 @@ def get_signature_values(
     if job_types:
         defaults = _job_types(defaults, job_types)
 
-    orig_n_jobs = oa.loc[oa_code][jobs].sum()
+    orig_n_jobs = default_data.loc[oa_code][jobs].sum()
     n_jobs_diff = defaults[jobs].sum() - orig_n_jobs
 
     df = pd.concat([defaults, form])
@@ -348,23 +344,34 @@ def get_signature_values(
         "lteWNB",
         "lieWCe",
     ]
-    exvars = df[order].rename({"population": "population_estimate"})
+    exvars = df[order]
     return (exvars, n_jobs_diff, newly_allocated_gs)
 
 
 def get_data(df, random_seed=None):
-    exvars = []
-    jobs_diff = []
-    gs_diff = []
-    for vals in df.itertuples(name=None):
-        ex, j, gs = get_signature_values(*vals, random_seed=random_seed)
-        exvars.append(ex)
-        jobs_diff.append(j)
-        gs_diff.append(gs)
-
-    exvars = pd.concat(exvars, axis=1).T.astype(float)
-    jobs_diff = pd.Series(jobs_diff, index=df.index.values, dtype=float, name="oa")
+    # get the default
+    exvars = default_data.copy()
+    jobs_diff = pd.Series(0, index=df.index.values, dtype=float, name="oa")
     jobs_diff.index.name = "to_id"
-    gs_diff = pd.Series(gs_diff, index=df.index.values, dtype=float, name="oa")
+    gs_diff = pd.Series(0, index=df.index.values, dtype=float, name="oa")
     gs_diff.index.name = "to_id"
+
+    # change values in changed locations
+    mask = df.notna().all(axis=1)
+    if mask.any():
+        exvars_fill = []
+        jobs_diff_fill = []
+        gs_diff_fill = []
+        for vals in df[mask].itertuples(name=None):
+            ex, j, gs = get_signature_values(*vals, random_seed=random_seed)
+            exvars_fill.append(ex)
+            jobs_diff_fill.append(j)
+            gs_diff_fill.append(gs)
+
+        exvars_change = pd.concat(exvars_fill, axis=1).T.astype(float)
+        exvars.loc[mask] = exvars_change
+
+        jobs_diff[mask] = jobs_diff_fill
+        gs_diff[mask] = gs_diff_fill
+
     return (exvars, jobs_diff, gs_diff)
