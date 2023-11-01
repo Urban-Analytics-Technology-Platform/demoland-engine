@@ -35,8 +35,8 @@ dependencies = [
 api = ["fastapi", "uvicorn"]
 
 [project.urls]
-Home = "https://github.com/martinfleis/demoland_engine"
-Repository = "https://github.com/martinfleis/demoland_engine"
+Home = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine"
+Repository = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine"
 
 [tool.setuptools.packages.find]
 include = ["demoland_engine", "demoland_engine.*"]
