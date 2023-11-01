@@ -16,7 +16,7 @@ if AZURE:
 app.add_middleware(
     CORSMiddleware,
     allow_methods=["POST"],
-    allow_origins=(["https://alan-turing-institute.github.io"]
+    allow_origins=(["https://urban-analytics-technology-platform.github.io"]
                    if AZURE else ["http://localhost:5173"]),
 )
 
