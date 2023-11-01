@@ -42,6 +42,7 @@ async def root_POST(
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
     scenario = scenario_json.scenario_json
+    print(scenario)
     df = demoland_engine.get_empty()
     for oa_code, vals in scenario.items():
         df.loc[oa_code] = list(vals.values())

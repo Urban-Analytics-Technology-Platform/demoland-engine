@@ -25,7 +25,8 @@ RUN pip install --no-cache-dir --upgrade \
     pyarrow==11.0.0 \
     scikit-learn==1.2.0 \
     setuptools_scm \
-    pooch==1.8.0
+    pooch
+
 COPY ./demoland_engine /code/demoland_engine
 COPY ./pyproject.toml /code/pyproject.toml
 COPY ./api /code
