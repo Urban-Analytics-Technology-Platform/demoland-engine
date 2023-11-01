@@ -354,7 +354,7 @@ def get_data(df, random_seed=None):
     gs_diff.index.name = "to_id"
 
     # change values in changed locations
-     
+    mask = df.notna().any(axis=1)
     if mask.any():
         exvars_fill = []
         jobs_diff_fill = []
