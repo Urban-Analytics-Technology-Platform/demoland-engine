@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 
 from .sampling import get_data, get_signature_values
-from .data import CACHE
+from .cache import CACHE
 
 lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa"))
 lsoa_input = pd.read_parquet(CACHE.fetch("empty_lsoa"))

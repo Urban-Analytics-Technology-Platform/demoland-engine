@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
-
-from .data import CACHE
+from .cache import CACHE
 
 median_form = pd.read_parquet(CACHE.fetch("median_form"))
 iqr_form = pd.read_parquet(CACHE.fetch("iqr_form"))

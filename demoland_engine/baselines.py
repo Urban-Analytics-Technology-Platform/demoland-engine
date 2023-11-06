@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .data import CACHE
+from .cache import CACHE
 
 
 def get_empty():
