@@ -1,6 +1,7 @@
 import azure.functions as func
 import demoland_engine
 import json
+import logging
 
 app = func.FunctionApp()
 
@@ -14,7 +15,12 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
     try:
-        scenario = req.get_json()["scenario_json"]
+        req_body = req.get_json()
+        scenario = req_body["scenario_json"]
+
+        logging.info("Received request with body:")
+        logging.info(req_body)
+
         df = demoland_engine.get_empty()
         for oa_code, vals in scenario.items():
             df.loc[oa_code] = list(vals.values())
