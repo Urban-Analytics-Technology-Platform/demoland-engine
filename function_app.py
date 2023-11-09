@@ -51,11 +51,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         sig.loc[changed.index] = changed
         pred["signature_type"] = sig
 
-        return func.HttpResponse(json.dumps({
-            "result": "success",
-            "message": "Successfully predicted indicators",
-            "data": pred.to_dict("index")
-        }))
+        return func.HttpResponse(json.dumps(pred.to_dict("index")))
     except Exception as e:
         return func.HttpResponse(json.dumps({
             "result": "error",
