@@ -2,10 +2,6 @@
 
 A predictive engine for the Alan Turing Institute project DemoLand
 
-## Install
+**This branch contains the code required for the Azure Functions deployment.**
 
-Either clone and pip install or pip install from git.
-
-## Usage
-
-See the notebooks in the `docs` folder.
+**For instructions on how to use this, see the [*Developer notes* section in the project book](https://urban-analytics-technology-platform.github.io/demoland-project/book/developer_notes.html).**
