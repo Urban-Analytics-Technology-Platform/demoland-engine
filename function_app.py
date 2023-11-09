@@ -6,7 +6,7 @@ import logging
 app = func.FunctionApp()
 
 @app.function_name(name="DemoLandEngine")
-@app.route(route="scenario")
+@app.route(route="scenario", auth_level=func.AuthLevel.ANONYMOUS)
 def test_function(req: func.HttpRequest) -> func.HttpResponse:
     """
     Returns a JSON object with the predicted indicator values and signature
