@@ -52,7 +52,8 @@ try:
         "house_price_predictor": "house_predictor_model_wasm.pickle",
         "air_quality_predictor": "air_predictor_model_wasm.pickle"
     }
-except:
+except Exception as e:
+    print(f"Encountered error: {e}. Defaulting to data on GitHub.")
     BASE_URL = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/"
 
 print("BASE_URL ", BASE_URL);
