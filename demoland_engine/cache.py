@@ -1,8 +1,6 @@
 import pooch
-CACHE=None
 
-BASE_URL = "https://github.com/martinfleis/demoland_engine/raw/main/data/"
-
+CACHE = None
 
 registry = {
     "accessibility": "b227092882663d1f4172b745891ef2e7aca37000acf0ce6d5a5a4e34822edda8",
@@ -43,32 +41,28 @@ urls = {
 
 try:
     import pyodide_js
-    base = "http://localhost:5173/data/"
-    registry = {**registry,
+    registry = {
+        **registry,
         "air_quality_predictor": "4d425e53bf6a1cb53a0614225c4b5e5c78d993b6cf4d83a309921c212660a06c",
         "house_price_predictor": "1eb2c4ccad77149e2122cd6c42fc4c094b82c579af15186e6fdeca5504d414f6"
     }
-    urls ={**urls,
+    urls = {
+        **urls,
         "house_price_predictor": "house_predictor_model_wasm.pickle",
         "air_quality_predictor": "air_predictor_model_wasm.pickle"
-                
     }
 except:
-    base = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/"
+    BASE_URL = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/"
 
-urls = { a:f"{base}{b}" for (a,b) in urls.items() }
-# try:
-#     import pyodide_js      
+print("BASE_URL ", BASE_URL);
+urls = {a :f"{BASE_URL}{b}" for (a, b) in urls.items() }
 
-#     print("Running in pyodide env")
-# except:
-#     import pooch
-
-print("urls " ,urls);
+print("urls ", urls);
 print("registry ", registry)
+
 CACHE = pooch.create(
-    path=pooch.os_cache("demoland_engine"), base_url="", registry=registry, urls=urls
+    path=pooch.os_cache("demoland_engine"),
+    base_url="",
+    registry=registry,
+    urls=urls
 )
-
-    
-
