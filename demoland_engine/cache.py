@@ -41,7 +41,7 @@ urls = {
 
 try:
     import pyodide_js
-    BASE_URL = pyodide_js.globals.get("BASE_URL")
+    BASE_URL = pyodide_js.globals.get("BASE_URL") + "/data/"
     registry = {
         **registry,
         "air_quality_predictor": "4d425e53bf6a1cb53a0614225c4b5e5c78d993b6cf4d83a309921c212660a06c",
