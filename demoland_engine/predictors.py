@@ -3,7 +3,8 @@ import joblib
 import pandas as pd
 
 from .sampling import get_data
-from .data import CACHE
+from .indicators import Model
+from .cache import CACHE
 
 with open(CACHE.fetch("air_quality_predictor"), "rb") as f:
     air_quality_predictor = pickle.load(f)
@@ -74,8 +75,14 @@ def get_indicators(df, mode="walk", random_seed=None):
         DataFrame containing the resulting indicators
     """
     vars, jobs, gsp = get_data(df, random_seed=random_seed)
-    aq = air_quality_predictor.predict(vars)
-    hp = house_price_predictor.predict(vars)
+    if(isinstance(air_quality_predictor,tuple)):
+        air_model = Model(air_quality_predictor[0],air_quality_predictor[1])
+    aq = air_model.predict(vars)
+    # If this has been packaged like we need it for wasm
+    if(isinstance(house_price_predictor,tuple)):
+        house_model = Model(house_price_predictor[0],house_price_predictor[1])
+    hp = house_model.predict(vars)
+    # If this has been packaged like we need it for wasm
     ja = accessibility.job_accessibility(jobs, mode)
     gs = accessibility.greenspace_accessibility(gsp, mode)
     ja = ja.to_pandas()[df.index].values
