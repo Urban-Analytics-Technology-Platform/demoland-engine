@@ -19,7 +19,7 @@ class Model:
             data[f"{col}_lag"] = self.W.lag(
                 data[col]
             )
-        return self.model.predict(data)
+        return self.model.predict(data[self.model.feature_names_in_])
 
 
 class Accessibility:
