@@ -3,12 +3,12 @@ import joblib
 import pandas as pd
 
 from .sampling import get_data
-from .data import CACHE
+from .data import CACHE, pyodide_convertor
 
-with open(CACHE.fetch("air_quality_predictor"), "rb") as f:
+with open(CACHE.fetch("air_quality_predictor", processor=pyodide_convertor), "rb") as f:
     air_quality_predictor = pickle.load(f)
 
-with open(CACHE.fetch("house_price_predictor"), "rb") as f:
+with open(CACHE.fetch("house_price_predictor", processor=pyodide_convertor), "rb") as f:
     house_price_predictor = pickle.load(f)
 
 with open(CACHE.fetch("accessibility"), "rb") as f:

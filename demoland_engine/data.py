@@ -1,4 +1,5 @@
 import pooch
+import numpy as np
 
 registry = {
     "accessibility": "b227092882663d1f4172b745891ef2e7aca37000acf0ce6d5a5a4e34822edda8",
@@ -38,3 +39,46 @@ urls = {
 CACHE = pooch.create(
     path=pooch.os_cache("demoland_engine"), base_url="", registry=registry, urls=urls
 )
+
+# The following code deals with an error in the sklearn code which makes pickles 
+# not protable between 64 and 32 bit environments.
+
+Y_DTYPE = np.float64
+X_DTYPE = np.float64
+X_BINNED_DTYPE = np.uint8  # hence max_bins == 256
+# dtype for gradients and hessians arrays
+G_H_DTYPE = np.float32
+X_BITSET_INNER_DTYPE = np.uint32
+
+PREDICTOR_RECORD_DTYPE_2 = np.dtype([
+  ('value', Y_DTYPE),
+  ('count', np.uint32),
+  ('feature_idx', np.int32),
+  ('num_threshold', X_DTYPE),
+  ('missing_go_to_left', np.uint8),
+  ('left', np.uint32),
+  ('right', np.uint32),
+  ('gain', Y_DTYPE),
+  ('depth', np.uint32),
+  ('is_leaf', np.uint8),
+  ('bin_threshold', X_BINNED_DTYPE),
+  ('is_categorical', np.uint8),
+  # The index of the corresponding bitsets in the Predictor's bitset arrays.
+  # Only used if is_categorical is True
+  ('bitset_idx', np.uint32)
+])
+
+# pooch processor to fix pyodide bug
+def pyodide_convertor(fname, action, pup):
+    try:
+        # Check to see if we are in a pyodide environment
+        import pyodide_js
+        model = joblib.load(fname)
+        model._predictors[i][0].nodes = model._predictors[i][0].nodes.astype(PREDICTOR_RECORD_DTYPE_2)
+        fname_base = fname.split(".")[0]
+        new_fname = f"{fname_base}_pyodide.joblib"
+        joblib.dump(new_fname, model)
+        return new_fname
+    except:
+        return fname    
+ 
