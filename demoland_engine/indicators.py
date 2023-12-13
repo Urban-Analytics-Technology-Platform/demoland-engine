@@ -11,7 +11,11 @@ class Model:
 
     def predict(self, X):
         data = X.copy()
-        for col in X.columns.copy():
+        if "lat" in X.columns:
+            col_for_lag = X.columns.drop(["lat", "lon"])
+        else:
+            col_for_lag = X.columns.copy()
+        for col in col_for_lag:
             data[f"{col}_lag"] = self.W.lag(
                 data[col]
             )
