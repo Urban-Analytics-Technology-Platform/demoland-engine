@@ -1,15 +1,22 @@
 import pickle
 import joblib
 import pandas as pd
+from libpysal import graph
 
 from .sampling import get_data
 from .data import CACHE
+from .indicators import Model
 
-with open(CACHE.fetch("air_quality_predictor"), "rb") as f:
-    air_quality_predictor = pickle.load(f)
+matrix = graph.read_parquet(CACHE.fetch("matrix"))
 
-with open(CACHE.fetch("house_price_predictor"), "rb") as f:
-    house_price_predictor = pickle.load(f)
+with open(CACHE.fetch("air_quality_model"), "rb") as f:
+    aq_model = joblib.load(f)
+
+with open(CACHE.fetch("house_price_model"), "rb") as f:
+    hp_model = joblib.load(f)
+
+air_quality_predictor = Model(matrix, aq_model)
+house_price_predictor = Model(matrix, hp_model)
 
 with open(CACHE.fetch("accessibility"), "rb") as f:
     accessibility = joblib.load(f)

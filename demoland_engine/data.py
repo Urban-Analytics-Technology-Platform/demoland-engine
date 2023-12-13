@@ -16,6 +16,9 @@ registry = {
     "oa_key": "133ceefae188b19f35c0f03fbaffbe9b1d6642062e62818770bcf92baa72517b",
     "oa_lsoa": "0ee90cb1f63454b86ece57870029eef0002c457b29849e59485fe09672c5316e",
     "oa_order": "1e514a29ddbdc46016572f8ebcd5a58d76c3c46748472cd5a0d6dc24cd852bc4",
+    "matrix": "eb194edc8fca9a3ab5d92160cd98d6a680657fe469547b32281cfa13ffb8ba17",
+    "air_quality_model": "1111815f4eacbedc12c3d221a34edf6147649bd5a8f9630e1f8a32b2494555b2",
+    "house_price_model": "1c030fdfa4ddb8a7e08a6a0d55b0275f56a5986ea2bc6eb2d5367e12a6d79dc5",
 }
 urls = {
     "accessibility": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/accessibility.joblib",
@@ -33,6 +36,9 @@ urls = {
     "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_key.parquet",
     "oa_lsoa": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_lsoa.parquet",
     "oa_order": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_order.parquet",
+    "matrix": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/matrix.parquet",
+    "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/air_quality_model.joblib",
+    "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/house_price_model.joblib",
 }
 
 CACHE = pooch.create(

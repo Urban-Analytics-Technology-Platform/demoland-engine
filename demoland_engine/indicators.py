@@ -1,4 +1,3 @@
-import libpysal
 import pandas as pd
 import xarray as xr
 
@@ -13,8 +12,8 @@ class Model:
     def predict(self, X):
         data = X.copy()
         for col in X.columns.copy():
-            data[f"{col}_lag"] = libpysal.weights.spatial_lag.lag_spatial(
-                self.W, data[col]
+            data[f"{col}_lag"] = self.W.lag(
+                data[col]
             )
         return self.model.predict(data)
 
