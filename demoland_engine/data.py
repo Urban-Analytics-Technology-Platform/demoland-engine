@@ -1,6 +1,9 @@
 import os
 
 import pooch
+import pandas as pd
+import joblib
+from libpysal import graph
 
 study_area = os.environ.get("DEMOLAND", "tyne_and_wear")
 
@@ -46,7 +49,41 @@ files = {
             "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/air_quality_model.joblib",
             "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/house_price_model.joblib",
         },
-    }
+    },
+    "tyne_and_wear_hex": {
+        "registry": {
+            # globally shared files
+            "air_quality_model": "a7e2ce3f995e6e76a85067ea2629f331e30f726242660a00ef6928d7e1fdb9d7",
+            "house_price_model": "73411b560f0ad4eb8f15c51b748f8506ebbe487c9e787a6e925bcdca5ed7d12b",
+            "median_form": "efdb305603d4fbb394d7e4973d6c0a0dc0cf79c6a7f5f12dd83c0220501b6dc4",
+            "median_function": "b92278503d78ee4bb84d58e0b77ccb7164fda06a59eba8a559f7b22db65395ac",
+            "iqr_form": "c84a006f899831b5228a8756b055b7214289efebf349e226a55f1ce113898bb3",
+            "iqr_function": "beaab3385b16a9f48cb104bf28066df84f41655fbbca400b5f6a74816df6d0e0",
+            # locally specific files
+            "accessibility": "df3ca485fb9b57414453a5e0b137b4e11bab30e27d2091cd0bbd93334fd5c7b2",
+            "matrix": "f4b643b9d233985cf25ca7ad47963e4c4274fe693e6f669fce9590e7048c9d7b",
+            "default_data": "87d045553f07f5c1984cb575b85d1412018b24f899b2e959b611105a15789a1d",
+            "empty": "45e1cdfe94997e9577775afcec9eddfbb28f70467be922be482308a95065d367",
+            "oa_area": "2dc67bc52ce06485c8f6e0c0e621ecc15650d298292f985f68c00239c49da50a",
+            "oa_key": "f84c46d2d6e77cfa29ab5128b80e6b401683b019440169a64085a56cbd725a82",
+        },
+        "urls": {
+            # globally shared files
+            "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/air_quality_model.joblib",
+            "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/house_price_model.joblib",
+            "median_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_form.parquet",
+            "median_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_function.parquet",
+            "iqr_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_form.parquet",
+            "iqr_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_function.parquet",
+            # locally specific files
+            "accessibility": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/accessibility.joblib",
+            "matrix": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/matrix.parquet",
+            "default_data": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/default_data.parquet",
+            "empty": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/empty.parquet",
+            "oa_area": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_area.parquet",
+            "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_key.parquet",
+        },
+    },
 }
 
 
@@ -56,3 +93,62 @@ CACHE = pooch.create(
     registry=files[study_area]["registry"],
     urls=files[study_area]["urls"],
 )
+
+FILEVAULT = dict(
+    case=study_area,
+    empty=pd.read_parquet(CACHE.fetch("empty")),
+    matrix=graph.read_parquet(CACHE.fetch("matrix")),
+    median_form=pd.read_parquet(CACHE.fetch("median_form")),
+    iqr_form=pd.read_parquet(CACHE.fetch("iqr_form")),
+    median_function=pd.read_parquet(CACHE.fetch("median_function")),
+    iqr_function=pd.read_parquet(CACHE.fetch("iqr_function")),
+    oa_key=pd.read_parquet(CACHE.fetch("oa_key")),
+    oa_area=pd.read_parquet(CACHE.fetch("oa_area")),
+    default_data=pd.read_parquet(CACHE.fetch("default_data")),
+)
+
+with open(CACHE.fetch("air_quality_model"), "rb") as f:
+    FILEVAULT["aq_model"] = joblib.load(f)
+
+with open(CACHE.fetch("house_price_model"), "rb") as f:
+    FILEVAULT["hp_model"] = joblib.load(f)
+
+with open(CACHE.fetch("accessibility"), "rb") as f:
+    FILEVAULT["accessibility"] = joblib.load(f)
+
+
+def change_area(study_area):
+    """Load the data for another study area
+
+    Parameters
+    ----------
+    study_area : str
+        name of the study area
+    """
+    # replace files within filevault with those representing a new area
+    FILEVAULT["case"] = study_area
+
+    CACHE = pooch.create(
+        path=pooch.os_cache("demoland_engine"),
+        base_url="",
+        registry=files[study_area]["registry"],
+        urls=files[study_area]["urls"],
+    )
+    FILEVAULT["empty"] = pd.read_parquet(CACHE.fetch("empty"))
+    FILEVAULT["matrix"] = graph.read_parquet(CACHE.fetch("matrix"))
+    FILEVAULT["median_form"] = pd.read_parquet(CACHE.fetch("median_form"))
+    FILEVAULT["iqr_form"] = pd.read_parquet(CACHE.fetch("iqr_form"))
+    FILEVAULT["median_function"] = pd.read_parquet(CACHE.fetch("median_function"))
+    FILEVAULT["iqr_function"] = pd.read_parquet(CACHE.fetch("iqr_function"))
+    FILEVAULT["oa_key"] = pd.read_parquet(CACHE.fetch("oa_key"))
+    FILEVAULT["oa_area"] = pd.read_parquet(CACHE.fetch("oa_area"))
+    FILEVAULT["default_data"] = pd.read_parquet(CACHE.fetch("default_data"))
+
+    with open(CACHE.fetch("air_quality_model"), "rb") as f:
+        FILEVAULT["aq_model"] = joblib.load(f)
+
+    with open(CACHE.fetch("house_price_model"), "rb") as f:
+        FILEVAULT["hp_model"] = joblib.load(f)
+
+    with open(CACHE.fetch("accessibility"), "rb") as f:
+        FILEVAULT["accessibility"] = joblib.load(f)

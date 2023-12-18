@@ -1,25 +1,16 @@
-import pickle
-import joblib
 import pandas as pd
-from libpysal import graph
 
 from .sampling import get_data
-from .data import CACHE
+from .data import CACHE, FILEVAULT
 from .indicators import Model
 
-matrix = graph.read_parquet(CACHE.fetch("matrix"))
-
-with open(CACHE.fetch("air_quality_model"), "rb") as f:
-    aq_model = joblib.load(f)
-
-with open(CACHE.fetch("house_price_model"), "rb") as f:
-    hp_model = joblib.load(f)
+matrix = FILEVAULT["matrix"]
+aq_model = FILEVAULT["aq_model"]
+hp_model = FILEVAULT["hp_model"]
+accessibility = FILEVAULT["accessibility"]
 
 air_quality_predictor = Model(matrix, aq_model)
 house_price_predictor = Model(matrix, hp_model)
-
-with open(CACHE.fetch("accessibility"), "rb") as f:
-    accessibility = joblib.load(f)
 
 
 def get_indicators(df, mode="walk", random_seed=None):
@@ -155,7 +146,7 @@ def get_indicators_lsoa(df):
     DataFrame
         DataFrame containing the resulting indicators
     """
-    empty = pd.read_parquet(CACHE.fetch("empty.parquet"))
+    empty = FILEVAULT["empty"]
     lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa.parquet"))
 
     merged = (

@@ -3,12 +3,7 @@ import joblib
 import pandas as pd
 
 from .sampling import get_data, get_signature_values
-from .data import CACHE
-
-lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa"))
-lsoa_input = pd.read_parquet(CACHE.fetch("empty_lsoa"))
-empty = pd.read_parquet(CACHE.fetch("empty"))
-
+from .data import CACHE, FILEVAULT
 
 class Engine:
     def __init__(self, initial_state, random_seed=None) -> None:
@@ -28,8 +23,12 @@ class Engine:
         with open(CACHE.fetch("accessibility"), "rb") as f:
             self.accessibility = joblib.load(f)
 
+        self.lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa"))
+        self.lsoa_input = pd.read_parquet(CACHE.fetch("empty_lsoa"))
+        empty = FILEVAULT["empty"]
+
         self.variable_state = (
-            empty.assign(lsoa=lsoa_oa.lsoa11cd)[["lsoa"]]
+            empty.assign(lsoa=self.lsoa_oa.lsoa11cd)[["lsoa"]]
             .merge(initial_state, left_on="lsoa", right_index=True, how="left")
             .drop(columns="lsoa")
         )
@@ -51,9 +50,9 @@ class Engine:
         val : float
             new value of a specified position
         """
-        lsoa_key = lsoa_input.index[iloc[0]]
-        affected_oa = lsoa_oa[lsoa_oa["lsoa11cd"] == lsoa_key].index
-        changed_var = lsoa_input.columns[iloc[1]]
+        lsoa_key = self.lsoa_input.index[iloc[0]]
+        affected_oa = self.lsoa_oa[self.lsoa_oa["lsoa11cd"] == lsoa_key].index
+        changed_var = self.lsoa_input.columns[iloc[1]]
         self.variable_state.loc[affected_oa, changed_var] = val
 
         exvars = []
@@ -93,7 +92,7 @@ class Engine:
                 },
                 index=self.variable_state.index,
             )
-            .assign(lsoa=lsoa_oa.lsoa11cd)
+            .assign(lsoa=self.lsoa_oa.lsoa11cd)
             .groupby("lsoa")
             .mean()
         )

@@ -1,15 +1,15 @@
 import numpy as np
 import pandas as pd
 
-from .data import CACHE
+from .data import FILEVAULT
 
-median_form = pd.read_parquet(CACHE.fetch("median_form"))
-iqr_form = pd.read_parquet(CACHE.fetch("iqr_form"))
-median_function = pd.read_parquet(CACHE.fetch("median_function"))
-iqr_function = pd.read_parquet(CACHE.fetch("iqr_function"))
-oa_key = pd.read_parquet(CACHE.fetch("oa_key"))
-oa_area = pd.read_parquet(CACHE.fetch("oa_area")).area
-default_data = pd.read_parquet(CACHE.fetch("default_data"))
+median_form = FILEVAULT["median_form"]
+iqr_form = FILEVAULT["iqr_form"]
+median_function = FILEVAULT["median_function"]
+iqr_function = FILEVAULT["iqr_function"]
+oa_key = FILEVAULT["oa_key"]
+oa_area = FILEVAULT["oa_area"].area
+default_data = FILEVAULT["default_data"]
 
 
 SIGS = {
