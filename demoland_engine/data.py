@@ -74,7 +74,7 @@ def pyodide_convertor(fname, action, pup):
         # Check to see if we are in a pyodide environment
         import pyodide_js
         model = joblib.load(fname)
-        model._predictors[i][0].nodes = model._predictors[i][0].nodes.astype(PREDICTOR_RECORD_DTYPE_2)
+        model._predictors[i][0].nodes = model._predictors[i][0].nodes.astype(PREDICTOR_RECORD_DTYPE_2, casting="same_kind")
         fname_base = fname.split(".")[0]
         new_fname = f"{fname_base}_pyodide.joblib"
         joblib.dump(new_fname, model)
