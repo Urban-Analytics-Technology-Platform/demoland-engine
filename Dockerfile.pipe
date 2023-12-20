@@ -9,9 +9,9 @@ RUN mkdir data
 RUN mkdir demoland_data
 
 # Copy the current directory contents into the container at /app
-COPY . /app
-COPY ../pyproject.toml /app/pyproject.toml
-COPY ../demoland_engine /app/demoland_engine
+COPY pipeline/pipeline.py /app/pipeline.py
+COPY pyproject.toml /app/pyproject.toml
+COPY demoland_engine /app/demoland_engine
 
 # Install any needed packages specified in requirements.txt
 # (You may need to adjust this depending on the requirements of your Python script)
