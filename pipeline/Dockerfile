@@ -5,6 +5,8 @@ RUN micromamba install -y -n base -f /tmp/env.yaml && \
 
 RUN mkdir app
 WORKDIR /app
+RUN mkdir data
+RUN mkdir demoland_data
 
 # Copy the current directory contents into the container at /app
 COPY . /app
