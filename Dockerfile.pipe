@@ -4,7 +4,6 @@ RUN micromamba install -y -n base -f /tmp/env.yaml && \
     micromamba clean --all --yes
 
 RUN mkdir app
-WORKDIR /app
 RUN mkdir data
 RUN mkdir demoland_data
 
@@ -15,6 +14,7 @@ COPY demoland_engine /app/demoland_engine
 
 # Install any needed packages specified in requirements.txt
 # (You may need to adjust this depending on the requirements of your Python script)
+WORKDIR /app
 RUN pip install --no-deps .
 
 # Define environment variables

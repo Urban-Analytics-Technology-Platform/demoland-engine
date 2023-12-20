@@ -47,11 +47,11 @@ def main():
     # Get input values from command-line arguments
     area_name = sys.argv[1]
     name = sys.argv[2]
-    aoi_file_path = sys.argv[3]
-    gtfs_data_file_path = sys.argv[4]
+    aoi_file_path = f"../data/{sys.argv[3]}"
+    gtfs_data_file_path = f"../data/{sys.argv[4]}"
 
     # this will be part of the container
-    data_folder = "."
+    data_folder = "../demoland_data"
 
     # ## Pipeline
     #
@@ -77,6 +77,9 @@ def main():
     aoi_poly = aoi.to_crs(27700).unary_union
 
     with open("engine/test.json", "w") as f:
+        json.dump({"time": date_time, "area": aoi_poly.area, "area_name": area_name}, f)
+
+    with open("../data/test_d.json", "w") as f:
         json.dump({"time": date_time, "area": aoi_poly.area, "area_name": area_name}, f)
 
     # 2. Get H3 grid with the data for the AoI
