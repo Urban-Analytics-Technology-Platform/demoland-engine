@@ -14,7 +14,7 @@ See the notebooks in the `docs` folder.
 ## Demoland pipeline
 
 ```sh
-docker build -t demoland_pipeline Dockerfile.pipe
+docker build -t demoland_pipeline -f Dockerfile.pipe .
 docker run \
         --rm \
         -ti \
