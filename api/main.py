@@ -1,7 +1,6 @@
 import os
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -16,12 +15,17 @@ if AZURE:
 app.add_middleware(
     CORSMiddleware,
     allow_methods=["POST"],
-    allow_origins=(["https://urban-analytics-technology-platform.github.io"]
-                   if AZURE else ["http://localhost:5173"]),
+    allow_origins=(
+        ["https://urban-analytics-technology-platform.github.io"]
+        if AZURE
+        else ["http://localhost:5173"]
+    ),
 )
+
 
 class ScenarioJSON(BaseModel):
     scenario_json: dict
+
 
 @app.get("/")
 async def root_GET():
@@ -31,17 +35,26 @@ async def root_GET():
     """
     return {"message": "Hello world from demoland-api!"}
 
+
 @app.post("/")
 async def root_POST(
     scenario_json: ScenarioJSON,
 ):
     """
     Returns a JSON object with the predicted indicator values and signature
-    types for each OA.
+    types for each geometry.
 
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
-    scenario = scenario_json.scenario_json
+
+    scenario_data = scenario_json.scenario_json
+
+    demoland_engine.data.change_area(
+        scenario_data.get("model_identifier", "tyne_and_wear")
+    )
+
+    scenario = scenario_data["scenario_json"]
+
     df = demoland_engine.get_empty()
     for oa_code, vals in scenario.items():
         df.loc[oa_code] = list(vals.values())
