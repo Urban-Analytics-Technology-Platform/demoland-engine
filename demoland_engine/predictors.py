@@ -4,14 +4,6 @@ from .sampling import get_data
 from .data import CACHE, FILEVAULT
 from .indicators import Model
 
-matrix = FILEVAULT["matrix"]
-aq_model = FILEVAULT["aq_model"]
-hp_model = FILEVAULT["hp_model"]
-accessibility = FILEVAULT["accessibility"]
-
-air_quality_predictor = Model(matrix, aq_model)
-house_price_predictor = Model(matrix, hp_model)
-
 
 def get_indicators(df, mode="walk", random_seed=None):
     """Get indicators for all OAs based on 4 variables
@@ -71,6 +63,14 @@ def get_indicators(df, mode="walk", random_seed=None):
     DataFrame
         DataFrame containing the resulting indicators
     """
+    matrix = FILEVAULT["matrix"]
+    aq_model = FILEVAULT["aq_model"]
+    hp_model = FILEVAULT["hp_model"]
+    accessibility = FILEVAULT["accessibility"]
+
+    air_quality_predictor = Model(matrix, aq_model)
+    house_price_predictor = Model(matrix, hp_model)
+
     vars, jobs, gsp = get_data(df, random_seed=random_seed)
     aq = air_quality_predictor.predict(vars)
     hp = house_price_predictor.predict(vars)
