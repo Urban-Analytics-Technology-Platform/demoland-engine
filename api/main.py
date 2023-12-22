@@ -50,13 +50,10 @@ async def root_POST(
 
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
-    print("Received request with model_identifier: ", body.model_identifier)
-
     # Set the environment variable before importing to avoid loading default
     # Tyne and Wear data every time this endpoint is called.
     os.environ["DEMOLAND"] = body.model_identifier
     import demoland_engine
-    print(demoland_engine.__file__)
 
     scenario = body.scenario_json
     demoland_engine.data.change_area(body.model_identifier)
