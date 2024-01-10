@@ -15,7 +15,7 @@ files = {
             "median_function": "b92278503d78ee4bb84d58e0b77ccb7164fda06a59eba8a559f7b22db65395ac",
             "iqr_form": "c84a006f899831b5228a8756b055b7214289efebf349e226a55f1ce113898bb3",
             "iqr_function": "beaab3385b16a9f48cb104bf28066df84f41655fbbca400b5f6a74816df6d0e0",
-             # locally specific files
+            # locally specific files
             "accessibility": "b227092882663d1f4172b745891ef2e7aca37000acf0ce6d5a5a4e34822edda8",
             "air_quality_predictor": "5303c046d3c177147577e8dfa4373f5c82f10d05a4d5b5b771cd2a1b73274393",
             "default_data": "58398d595366e622997d9aa95b1e59f0ed07724efd5b773ee87f14c2375d3896",
@@ -28,8 +28,8 @@ files = {
             "oa_lsoa": "0ee90cb1f63454b86ece57870029eef0002c457b29849e59485fe09672c5316e",
             "oa_order": "1e514a29ddbdc46016572f8ebcd5a58d76c3c46748472cd5a0d6dc24cd852bc4",
             "matrix": "eb194edc8fca9a3ab5d92160cd98d6a680657fe469547b32281cfa13ffb8ba17",
-            "air_quality_model": "1111815f4eacbedc12c3d221a34edf6147649bd5a8f9630e1f8a32b2494555b2",
-            "house_price_model": "1c030fdfa4ddb8a7e08a6a0d55b0275f56a5986ea2bc6eb2d5367e12a6d79dc5",
+            "air_quality_model": "6cdf8375f31f31eb4e78299ad5106599fbac13da325c9053b8ad38f585fd55df",
+            "house_price_model": "7c833415e58d1a4e26218a8502bfd7af30a2d0f862d790cd2a9b7d8c1166faed",
         },
         "urls": {
             # globally shared files
