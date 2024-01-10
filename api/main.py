@@ -1,10 +1,8 @@
 import os
+from dataclasses import dataclass
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-
-import demoland_engine
 
 app = FastAPI()
 
@@ -22,9 +20,15 @@ app.add_middleware(
     ),
 )
 
-
-class ScenarioJSON(BaseModel):
+@dataclass
+class ScenarioRequest:
+    """
+    A dataclass is used here instead of Pydantic's BaseModel because BaseModel
+    reserves attributes beginning with `model_` for internal use. See
+    https://github.com/pydantic/pydantic/issues/4915
+    """
     scenario_json: dict
+    model_identifier: str = "tyne_and_wear"
 
 
 @app.get("/")
@@ -38,7 +42,7 @@ async def root_GET():
 
 @app.post("/")
 async def root_POST(
-    scenario_json: ScenarioJSON,
+    body: ScenarioRequest,
 ):
     """
     Returns a JSON object with the predicted indicator values and signature
@@ -46,21 +50,20 @@ async def root_POST(
 
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
+    # Set the environment variable before importing to avoid loading default
+    # Tyne and Wear data every time this endpoint is called.
+    os.environ["DEMOLAND"] = body.model_identifier
+    import demoland_engine
 
-    scenario_data = scenario_json.scenario_json
-
-    demoland_engine.data.change_area(
-        scenario_data.get("model_identifier", "tyne_and_wear")
-    )
-
-    scenario = scenario_data["scenario_json"]
+    scenario = body.scenario_json
+    demoland_engine.data.change_area(body.model_identifier)
 
     df = demoland_engine.get_empty()
     for oa_code, vals in scenario.items():
         df.loc[oa_code] = list(vals.values())
 
     pred = demoland_engine.get_indicators(df, random_seed=42)
-    sig = demoland_engine.sampling.oa_key.primary_type.copy()
+    sig = demoland_engine.data.FILEVAULT["oa_key"].primary_type.copy()
 
     mapping = {
         "Wild countryside": 0,
@@ -84,5 +87,6 @@ async def root_POST(
     changed = df.signature_type[df.signature_type.notna()]
     sig.loc[changed.index] = changed
     pred["signature_type"] = sig
+    pred = pred.dropna(subset=["signature_type"])
 
     return pred.to_dict("index")

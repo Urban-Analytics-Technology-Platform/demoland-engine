@@ -1,19 +1,15 @@
-FROM python:3.11
+FROM mambaorg/micromamba:1.5.5
+COPY --chown=$MAMBA_USER:$MAMBA_USER env.yaml /tmp/env.yaml
+RUN micromamba install -y -n base -f /tmp/env.yaml && \
+    micromamba clean --all --yes
+
+LABEL org.opencontainers.image.source=https://github.com/Urban-Analytics-Technology-Platform/demoland-engine
+LABEL org.opencontainers.image.description="Container used to deploy Demoland API"
+LABEL org.opencontainers.image.licenses=MIT
+
+ARG MAMBA_DOCKERFILE_ACTIVATE=1
 
 WORKDIR /code
-
-RUN pip install --no-cache-dir --upgrade \
-    fastapi \
-    pydantic \
-    uvicorn \
-    joblib==1.2.0 \
-    pandas==1.5.3 \
-    libpysal==4.7.0 \
-    xarray==2023.1.0 \
-    pyarrow==11.0.0 \
-    scikit-learn==1.2.0 \
-    setuptools_scm \
-    pooch
 
 COPY ./demoland_engine /code/demoland_engine
 COPY ./pyproject.toml /code/pyproject.toml

@@ -3,14 +3,6 @@ import pandas as pd
 
 from .data import FILEVAULT
 
-median_form = FILEVAULT["median_form"]
-iqr_form = FILEVAULT["iqr_form"]
-median_function = FILEVAULT["median_function"]
-iqr_function = FILEVAULT["iqr_function"]
-oa_key = FILEVAULT["oa_key"]
-oa_area = FILEVAULT["oa_area"].area
-default_data = FILEVAULT["default_data"]
-
 
 SIGS = {
     0: "Wild countryside",
@@ -39,6 +31,9 @@ def _form(signature_type, variable, random_seed):
     median of a variable per signature type. The spread is
     defined as 1/5 of interquartile range.
     """
+    median_form = FILEVAULT["median_form"]
+    iqr_form = FILEVAULT["iqr_form"]
+
     rng = np.random.default_rng(random_seed)
     return rng.normal(
         median_form.loc[signature_type, variable],
@@ -53,6 +48,9 @@ def _function(signature_type, variable, random_seed):
     median of a variable per signature type. The spread is
     defined as 1/5 of interquartile range.
     """
+    median_function = FILEVAULT["median_function"]
+    iqr_function = FILEVAULT["iqr_function"]
+
     rng = np.random.default_rng(random_seed)
     return rng.normal(
         median_function.loc[signature_type, variable],
@@ -214,6 +212,11 @@ def get_signature_values(
     -------
     Series
     """
+    median_form = FILEVAULT["median_form"]
+    median_function = FILEVAULT["median_function"]
+    oa_key = FILEVAULT["oa_key"]
+    oa_area = FILEVAULT["oa_area"].area
+
     if signature_type is not None:
         signature_type = SIGS[signature_type]
     orig_type = oa_key.primary_type[oa_code]
@@ -346,6 +349,8 @@ def get_signature_values(
 
 
 def get_data(df, random_seed=None):
+    default_data = FILEVAULT["default_data"]
+
     # get the default
     exvars = default_data.copy()
     jobs_diff = pd.Series(0, index=df.index.values, dtype=float, name="oa")
