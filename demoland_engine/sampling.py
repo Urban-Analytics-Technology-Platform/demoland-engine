@@ -216,6 +216,8 @@ def get_signature_values(
     median_function = FILEVAULT["median_function"]
     oa_key = FILEVAULT["oa_key"]
     oa_area = FILEVAULT["oa_area"].area
+    default_data = FILEVAULT["default_data"]
+
 
     if signature_type is not None:
         signature_type = SIGS[signature_type]
