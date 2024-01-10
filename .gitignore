@@ -1,3 +1,9 @@
+# Files needed for container
+air_quality_model.joblib
+grid_adjacency_binary.parquet
+grid_complete.parquet
+house_price_model.joblib
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
