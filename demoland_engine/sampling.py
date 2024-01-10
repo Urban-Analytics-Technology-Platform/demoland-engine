@@ -373,7 +373,7 @@ def get_data(df, random_seed=None):
             gs_diff_fill.append(gs)
 
         exvars_change = pd.concat(exvars_fill, axis=1).T.astype(float)
-        exvars.loc[mask] = exvars_change
+        exvars.loc[mask, exvars_change.columns] = exvars_change
 
         jobs_diff[mask] = jobs_diff_fill
         gs_diff[mask] = gs_diff_fill
