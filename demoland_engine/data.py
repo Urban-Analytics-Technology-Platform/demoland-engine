@@ -57,8 +57,8 @@ files = {
     "tyne_and_wear_hex": {
         "registry": {
             # globally shared files
-            "air_quality_model": "a7e2ce3f995e6e76a85067ea2629f331e30f726242660a00ef6928d7e1fdb9d7",
-            "house_price_model": "73411b560f0ad4eb8f15c51b748f8506ebbe487c9e787a6e925bcdca5ed7d12b",
+            "air_quality_model": "42b8080172cdad413b9d3c9d322ef32979900b4f63bc61a45b543cd8c60d4a2d",
+            "house_price_model": "eb9eebfac8ea417f6b4ded0e203be9144408d7241a55501896b5ead2edf25162",
             "median_form": "efdb305603d4fbb394d7e4973d6c0a0dc0cf79c6a7f5f12dd83c0220501b6dc4",
             "median_function": "b92278503d78ee4bb84d58e0b77ccb7164fda06a59eba8a559f7b22db65395ac",
             "iqr_form": "c84a006f899831b5228a8756b055b7214289efebf349e226a55f1ce113898bb3",
