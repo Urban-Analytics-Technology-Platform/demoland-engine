@@ -161,10 +161,10 @@ FILEVAULT = dict(
     default_data=pd.read_parquet(CACHE.fetch("default_data")),
 )
 
-with open(CACHE.fetch("air_quality_model"), "rb") as f:
+with open(CACHE.fetch("air_quality_model", processor=pyodide_convertor), "rb") as f:
     FILEVAULT["aq_model"] = joblib.load(f)
 
-with open(CACHE.fetch("house_price_model"), "rb") as f:
+with open(CACHE.fetch("house_price_model", processor=pyodide_convertor), "rb") as f:
     FILEVAULT["hp_model"] = joblib.load(f)
 
 with open(CACHE.fetch("accessibility"), "rb") as f:
