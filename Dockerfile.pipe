@@ -1,0 +1,30 @@
+FROM mambaorg/micromamba:1.5.5
+COPY --chown=$MAMBA_USER:$MAMBA_USER env.yaml /tmp/env.yaml
+RUN micromamba install -y -n base -f /tmp/env.yaml && \
+    micromamba clean --all --yes
+
+LABEL org.opencontainers.image.source=https://github.com/Urban-Analytics-Technology-Platform/demoland-engine
+LABEL org.opencontainers.image.description="Container used to generate data for a deployment of a Demoland instance"
+LABEL org.opencontainers.image.licenses=MIT
+
+ARG MAMBA_DOCKERFILE_ACTIVATE=1
+
+RUN mkdir app
+RUN mkdir data
+RUN mkdir demoland_data
+RUN chmod 777 /home/mambauser/.cache
+RUN chmod 777 app
+
+COPY . /app
+COPY pipeline/pipeline.py /app/pipeline.py
+COPY pipeline/index.ts /app/index.ts
+
+WORKDIR /app
+
+ENV DEMOLAND="tyne_and_wear_hex"
+
+RUN python -c 'import demoland_engine'
+RUN chmod -R 777 /home/mambauser/.cache/demoland_engine
+
+# Run the Python script when the container launches
+CMD python pipeline.py "$AREA_NAME" "$NAME" "$AOI_FILE_PATH" "$GTFS_FILE_PATH"

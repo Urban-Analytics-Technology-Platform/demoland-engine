@@ -1,10 +1,10 @@
 import pandas as pd
 
-from .data import CACHE
+from .data import CACHE, FILEVAULT
 
 
 def get_empty():
-    return pd.read_parquet(CACHE.fetch("empty"))
+    return FILEVAULT["empty"]
 
 
 def get_empty_lsoa():
