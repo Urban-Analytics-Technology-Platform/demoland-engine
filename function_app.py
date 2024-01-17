@@ -1,6 +1,6 @@
 import azure.functions as func
-import demoland_engine
 import json
+import os
 import logging
 
 app = func.FunctionApp()
@@ -15,18 +15,26 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
     See the `docker_usage.ipynb` notebook for example Python usage.
     """
     try:
+        # Set the environment variable before importing to avoid loading
+        # default Tyne and Wear data every time this endpoint is called.
         req_body = req.get_json()
         scenario = req_body["scenario_json"]
+        os.environ["DEMOLAND"] = req_body["model_identifier"]
+        import demoland_engine
 
         logging.info("Received request with body:")
         logging.info(req_body)
+
+        # This is no longer needed because Azure functions don't have
+        # persistent state (I _think_).
+        # demoland_engine.data.change_area(body.model_identifier)
 
         df = demoland_engine.get_empty()
         for oa_code, vals in scenario.items():
             df.loc[oa_code] = list(vals.values())
 
         pred = demoland_engine.get_indicators(df, random_seed=42)
-        sig = demoland_engine.sampling.oa_key.primary_type.copy()
+        sig = demoland_engine.data.FILEVAULT["oa_key"].primary_type.copy()
 
         mapping = {
             "Wild countryside": 0,
@@ -50,6 +58,7 @@ def test_function(req: func.HttpRequest) -> func.HttpResponse:
         changed = df.signature_type[df.signature_type.notna()]
         sig.loc[changed.index] = changed
         pred["signature_type"] = sig
+        pred = pred.dropna(subset=["signature_type"])
 
         return func.HttpResponse(json.dumps(pred.to_dict("index")))
     except Exception as e:
