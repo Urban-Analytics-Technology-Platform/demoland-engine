@@ -1,3 +1,13 @@
+"""
+Azure Function app for demoland-engine.
+
+To deploy manually, either follow the steps in the demoland-project book:
+https://urban-analytics-technology-platform.github.io/demoland-project/book/developer_notes.html
+
+or trigger the deploy_azure_functions GitHub Action:
+https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/actions/workflows/deploy_azure_functions.yaml
+"""
+
 import azure.functions as func
 import json
 import os

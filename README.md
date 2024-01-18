@@ -61,5 +61,6 @@ docker push ghcr.io/urban-analytics-technology-platform/demoland_pipeline:latest
 
 ### Deployment to Azure Functions
 
-Note that whenever the data files are updated, the Azure Functions deployment has to be updated.
-See the [Developer Notes section](https://urban-analytics-technology-platform.github.io/demoland-project/book/developer_notes.html#azure-functions) in the DemoLand book for instructions on how to do this.
+The repository includes a GitHub Action which automatically deploys the main branch to Azure Functions.
+
+For manual deployment steps, see the [Developer Notes section](https://urban-analytics-technology-platform.github.io/demoland-project/book/developer_notes.html#azure-functions) in the DemoLand book for instructions.
