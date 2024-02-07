@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import pooch
-from libpysal import graph
+from .graph import read_parquet
 
 study_area = os.environ.get("DEMOLAND", "tyne_and_wear")
 
@@ -152,7 +152,7 @@ def pyodide_convertor(fname, action, pup):
 FILEVAULT = dict(
     case=study_area,
     empty=pd.read_parquet(CACHE.fetch("empty")),
-    matrix=graph.read_parquet(CACHE.fetch("matrix")),
+    matrix=read_parquet(CACHE.fetch("matrix")),
     median_form=pd.read_parquet(CACHE.fetch("median_form")),
     iqr_form=pd.read_parquet(CACHE.fetch("iqr_form")),
     median_function=pd.read_parquet(CACHE.fetch("median_function")),
@@ -190,7 +190,7 @@ def change_area(study_area):
         urls=files[study_area]["urls"],
     )
     FILEVAULT["empty"] = pd.read_parquet(CACHE.fetch("empty"))
-    FILEVAULT["matrix"] = graph.read_parquet(CACHE.fetch("matrix"))
+    FILEVAULT["matrix"] = read_parquet(CACHE.fetch("matrix"))
     FILEVAULT["median_form"] = pd.read_parquet(CACHE.fetch("median_form"))
     FILEVAULT["iqr_form"] = pd.read_parquet(CACHE.fetch("iqr_form"))
     FILEVAULT["median_function"] = pd.read_parquet(CACHE.fetch("median_function"))
