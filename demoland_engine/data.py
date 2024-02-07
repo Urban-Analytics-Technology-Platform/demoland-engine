@@ -29,8 +29,8 @@ files = {
             "oa_lsoa": "0ee90cb1f63454b86ece57870029eef0002c457b29849e59485fe09672c5316e",
             "oa_order": "1e514a29ddbdc46016572f8ebcd5a58d76c3c46748472cd5a0d6dc24cd852bc4",
             "matrix": "eb194edc8fca9a3ab5d92160cd98d6a680657fe469547b32281cfa13ffb8ba17",
-            "air_quality_model": "6cdf8375f31f31eb4e78299ad5106599fbac13da325c9053b8ad38f585fd55df",
-            "house_price_model": "7c833415e58d1a4e26218a8502bfd7af30a2d0f862d790cd2a9b7d8c1166faed",
+            "air_quality_model": "4f95ca4033bc1723b369ce84b4dff0de75be2ed1b6556d6d12add773ba1f9b28",
+            "house_price_model": "b6fa464ed88848b7829d15c1a904b5b754e31ed1e44bd2ab4a716e74a7d6ae72",
         },
         "urls": {
             # globally shared files
