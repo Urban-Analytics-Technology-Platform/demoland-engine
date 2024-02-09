@@ -36,10 +36,8 @@ POSSIBILITY OF SUCH DAMAGE.
 """
 
 from functools import cached_property
-import json
 import pandas as pd
 from scipy import sparse
-import pyarrow.parquet as pq
 
 ALLOWED_TRANSFORMATIONS = ("O", "B", "R", "D", "V", "C")
 
@@ -200,11 +198,4 @@ def _read_parquet(source, **kwargs):
     tuple
         tuple of adjacency table and transformation
     """
-    table = pq.read_table(source, **kwargs)
-    if b"libpysal" in table.schema.metadata:
-        meta = json.loads(table.schema.metadata[b"libpysal"])
-        transformation = meta["transformation"]
-    else:
-        transformation = "O"
-
-    return table.to_pandas()["weight"], transformation
+    return pd.read_parquet(source)["weight"], "R"
