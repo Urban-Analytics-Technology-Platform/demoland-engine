@@ -41,6 +41,10 @@ docker run \
 The container generates two ZIP files. One shall be used in `demoland_engine`, and the
 other shall be used to deploy the app.
 
+The file `engine.zip` contains files to be added to the `data` folder of the `demoland-engine` repository. Use the information in `hashes.json` to update `data.py` in the `demoland_engine` code.
+
+The file `app.zip` contains all the necessary files to generate the webapp. Note that the new version of `demoland_engine` with all the files from `engine.zip` and correct hashes needs to be deployed before the app. See the [dedicated documenation on the app deployment](https://github.com/Urban-Analytics-Technology-Platform/demoland-web/blob/main/CUSTOM_AREA.md). 
+
 ### Building the container
 
 To successfully build the container, navigate to the root of the repository and copy the
