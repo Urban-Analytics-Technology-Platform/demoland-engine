@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 
 from .sampling import get_data, get_signature_values
-from .data import CACHE, FILEVAULT, pyodide_convertor, fetch_with_headers
+from .data import CACHE, FILEVAULT, pyodide_convertor
 
 
 class Engine:
@@ -16,20 +16,20 @@ class Engine:
             DataFrame with specification of the initial state.
         """
         with open(
-            fetch_with_headers(CACHE, "air_quality_predictor", processor=pyodide_convertor), "rb"
+            CACHE.fetch("air_quality_predictor", processor=pyodide_convertor), "rb"
         ) as f:
             self.air_quality_predictor = pickle.load(f)
 
         with open(
-            fetch_with_headers(CACHE, "house_price_predictor", processor=pyodide_convertor), "rb"
+            CACHE.fetch("house_price_predictor", processor=pyodide_convertor), "rb"
         ) as f:
             self.house_price_predictor = pickle.load(f)
 
-        with open(fetch_with_headers(CACHE, "accessibility"), "rb") as f:
+        with open(CACHE.fetch("accessibility"), "rb") as f:
             self.accessibility = joblib.load(f)
 
-        self.lsoa_oa = pd.read_parquet(fetch_with_headers(CACHE, "oa_lsoa"))
-        self.lsoa_input = pd.read_parquet(fetch_with_headers(CACHE, "empty_lsoa"))
+        self.lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa"))
+        self.lsoa_input = pd.read_parquet(CACHE.fetch("empty_lsoa"))
         empty = FILEVAULT["empty"]
 
         self.variable_state = (
