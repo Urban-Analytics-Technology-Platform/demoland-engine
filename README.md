@@ -22,6 +22,8 @@ You will need to provide four pieces of information:
 
 The best option is to create a folder with the two required files, navigate to the folder and run the container.
 
+The container is not public, so you need to ensure you are logged in to ghcr.io within Docker. Follow the [Github docs]([Title](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic)) to do that.
+
 Example:
 
 ```sh
