@@ -99,6 +99,20 @@ CACHE = pooch.create(
     urls=files[study_area]["urls"],
 )
 
+def fetch_with_headers(cache: pooch.Pooch, file_name: str, **kwargs):
+    """
+    The same as cache.fetch(file_name) but with additional HTTP headers
+    if 'downloader' is not specified.
+    """
+    headers = {"Access-Control-Allow-Origin": "*"}
+    if 'downloader' in kwargs:
+        return cache.fetch(file_name, **kwargs)
+    else:
+        return cache.fetch(file_name,
+                           downloader=pooch.HTTPDownloader(headers=headers),
+                           **kwargs)
+
+
 # The following code deals with an error in the sklearn code which makes pickles
 # not protable between 64 and 32 bit environments.
 
@@ -151,24 +165,23 @@ def pyodide_convertor(fname, action, pup):
 
 FILEVAULT = dict(
     case=study_area,
-    empty=pd.read_parquet(CACHE.fetch("empty")),
-    matrix=read_parquet(CACHE.fetch("matrix")),
-    median_form=pd.read_parquet(CACHE.fetch("median_form")),
-    iqr_form=pd.read_parquet(CACHE.fetch("iqr_form")),
-    median_function=pd.read_parquet(CACHE.fetch("median_function")),
-    iqr_function=pd.read_parquet(CACHE.fetch("iqr_function")),
-    oa_key=pd.read_parquet(CACHE.fetch("oa_key")),
-    oa_area=pd.read_parquet(CACHE.fetch("oa_area")),
-    default_data=pd.read_parquet(CACHE.fetch("default_data")),
+    empty=pd.read_parquet(fetch_with_headers(CACHE, "empty")),
+    matrix=read_parquet(fetch_with_headers(CACHE, "matrix")),
+    median_form=pd.read_parquet(fetch_with_headers(CACHE, "median_form")),
+    iqr_form=pd.read_parquet(fetch_with_headers(CACHE, "iqr_form")),
+    median_function=pd.read_parquet(fetch_with_headers(CACHE, "median_function")),
+    iqr_function=pd.read_parquet(fetch_with_headers(CACHE, "iqr_function")),
+    oa_key=pd.read_parquet(fetch_with_headers(CACHE, "oa_key")),
+    oa_area=pd.read_parquet(fetch_with_headers(CACHE, "oa_area")),
+    default_data=pd.read_parquet(fetch_with_headers(CACHE, "default_data")),
 )
 
-with open(CACHE.fetch("air_quality_model", processor=pyodide_convertor), "rb") as f:
+with open(fetch_with_headers(CACHE, "air_quality_model", processor=pyodide_convertor), "rb") as f:
     FILEVAULT["aq_model"] = joblib.load(f)
-
-with open(CACHE.fetch("house_price_model", processor=pyodide_convertor), "rb") as f:
+with open(fetch_with_headers(CACHE, "house_price_model", processor=pyodide_convertor), "rb") as f:
     FILEVAULT["hp_model"] = joblib.load(f)
 
-with open(CACHE.fetch("accessibility"), "rb") as f:
+with open(fetch_with_headers(CACHE, "accessibility"), "rb") as f:
     FILEVAULT["accessibility"] = joblib.load(f)
 
 
@@ -189,21 +202,21 @@ def change_area(study_area):
         registry=files[study_area]["registry"],
         urls=files[study_area]["urls"],
     )
-    FILEVAULT["empty"] = pd.read_parquet(CACHE.fetch("empty"))
-    FILEVAULT["matrix"] = read_parquet(CACHE.fetch("matrix"))
-    FILEVAULT["median_form"] = pd.read_parquet(CACHE.fetch("median_form"))
-    FILEVAULT["iqr_form"] = pd.read_parquet(CACHE.fetch("iqr_form"))
-    FILEVAULT["median_function"] = pd.read_parquet(CACHE.fetch("median_function"))
-    FILEVAULT["iqr_function"] = pd.read_parquet(CACHE.fetch("iqr_function"))
-    FILEVAULT["oa_key"] = pd.read_parquet(CACHE.fetch("oa_key"))
-    FILEVAULT["oa_area"] = pd.read_parquet(CACHE.fetch("oa_area"))
-    FILEVAULT["default_data"] = pd.read_parquet(CACHE.fetch("default_data"))
+    FILEVAULT["empty"] = pd.read_parquet(fetch_with_headers(CACHE, "empty"))
+    FILEVAULT["matrix"] = read_parquet(fetch_with_headers(CACHE, "matrix"))
+    FILEVAULT["median_form"] = pd.read_parquet(fetch_with_headers(CACHE, "median_form"))
+    FILEVAULT["iqr_form"] = pd.read_parquet(fetch_with_headers(CACHE, "iqr_form"))
+    FILEVAULT["median_function"] = pd.read_parquet(fetch_with_headers(CACHE, "median_function"))
+    FILEVAULT["iqr_function"] = pd.read_parquet(fetch_with_headers(CACHE, "iqr_function"))
+    FILEVAULT["oa_key"] = pd.read_parquet(fetch_with_headers(CACHE, "oa_key"))
+    FILEVAULT["oa_area"] = pd.read_parquet(fetch_with_headers(CACHE, "oa_area"))
+    FILEVAULT["default_data"] = pd.read_parquet(fetch_with_headers(CACHE, "default_data"))
 
-    with open(CACHE.fetch("air_quality_model"), "rb") as f:
+    with open(fetch_with_headers(CACHE, "air_quality_model"), "rb") as f:
         FILEVAULT["aq_model"] = joblib.load(f)
 
-    with open(CACHE.fetch("house_price_model"), "rb") as f:
+    with open(fetch_with_headers(CACHE, "house_price_model"), "rb") as f:
         FILEVAULT["hp_model"] = joblib.load(f)
 
-    with open(CACHE.fetch("accessibility"), "rb") as f:
+    with open(fetch_with_headers(CACHE, "accessibility"), "rb") as f:
         FILEVAULT["accessibility"] = joblib.load(f)

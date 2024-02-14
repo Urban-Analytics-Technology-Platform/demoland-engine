@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .data import CACHE, FILEVAULT
+from .data import CACHE, FILEVAULT, fetch_with_headers
 
 
 def get_empty():
@@ -8,8 +8,8 @@ def get_empty():
 
 
 def get_empty_lsoa():
-    return pd.read_parquet(CACHE.fetch("empty_lsoa.parquet"))
+    return pd.read_parquet(fetch_with_headers(CACHE, "empty_lsoa.parquet"))
 
 
 def get_lsoa_baseline():
-    return pd.read_parquet(CACHE.fetch("lsoa_baseline.parquet"))
+    return pd.read_parquet(fetch_with_headers(CACHE, "lsoa_baseline.parquet"))

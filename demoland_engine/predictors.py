@@ -1,7 +1,7 @@
 import pandas as pd
 
 from .sampling import get_data
-from .data import CACHE, FILEVAULT
+from .data import CACHE, FILEVAULT, fetch_with_headers
 from .indicators import Model
 
 
@@ -147,7 +147,7 @@ def get_indicators_lsoa(df):
         DataFrame containing the resulting indicators
     """
     empty = FILEVAULT["empty"]
-    lsoa_oa = pd.read_parquet(CACHE.fetch("oa_lsoa.parquet"))
+    lsoa_oa = pd.read_parquet(fetch_with_headers(CACHE, "oa_lsoa.parquet"))
 
     merged = (
         empty.assign(lsoa=lsoa_oa.lsoa11cd)[["lsoa"]]
