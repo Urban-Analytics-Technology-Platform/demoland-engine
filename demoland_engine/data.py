@@ -89,6 +89,40 @@ files = {
             "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/oa_key.parquet",
         },
     },
+    "isle_of_wight": {
+        "registry": {
+            # globally shared files
+            "air_quality_model": "42b8080172cdad413b9d3c9d322ef32979900b4f63bc61a45b543cd8c60d4a2d",
+            "house_price_model": "eb9eebfac8ea417f6b4ded0e203be9144408d7241a55501896b5ead2edf25162",
+            "median_form": "efdb305603d4fbb394d7e4973d6c0a0dc0cf79c6a7f5f12dd83c0220501b6dc4",
+            "median_function": "b92278503d78ee4bb84d58e0b77ccb7164fda06a59eba8a559f7b22db65395ac",
+            "iqr_form": "c84a006f899831b5228a8756b055b7214289efebf349e226a55f1ce113898bb3",
+            "iqr_function": "beaab3385b16a9f48cb104bf28066df84f41655fbbca400b5f6a74816df6d0e0",
+            # locally specific files
+            "accessibility": "43059ec13fc71f434b9819890b2b6120d212cba6310a03d47f524749cbdae0c6",
+            "matrix": "134f6f0791f71dce439e09d9bf66bbcd06a42a4f574248a7aa268afc6e2237c6",
+            "default_data": "25e79cffb3f5e590b342d0cfe2681b10c6edc3068a2dce63cff5a33b22208133",
+            "empty": "4c5a329cf23e60faf668a9cd762780ff734432a1474c40bab127201176481e32",
+            "oa_area": "53b6e43b582e1ae99a205efd9e0a32b74fc6c17ee52033f5fac9acc3cad0deab",
+            "oa_key": "3b5885424ac0c4278327ac23231019af0a351ca412cd9a8a64917555a92c5070",
+        },
+        "urls": {
+            # globally shared files
+            "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/air_quality_model.joblib",
+            "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/house_price_model.joblib",
+            "median_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_form.parquet",
+            "median_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_function.parquet",
+            "iqr_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_form.parquet",
+            "iqr_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_function.parquet",
+            # locally specific files
+            "accessibility": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/accessibility.joblib",
+            "matrix": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/matrix.parquet",
+            "default_data": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/default_data.parquet",
+            "empty": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/empty.parquet",
+            "oa_area": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/oa_area.parquet",
+            "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/isle_of_wight/oa_key.parquet",
+        },
+    },
 }
 
 
