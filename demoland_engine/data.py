@@ -8,6 +8,9 @@ from .graph import read_parquet
 
 study_area = os.environ.get("DEMOLAND", "tyne_and_wear")
 
+BASE_URL = "https://raw.githubusercontent.com/Urban-Analytics-Technology-Platform/demoland-engine"
+# originally: "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw"
+
 files = {
     "tyne_and_wear": {
         "registry": {
@@ -34,25 +37,25 @@ files = {
         },
         "urls": {
             # globally shared files
-            "median_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_form.parquet",
-            "median_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_function.parquet",
-            "iqr_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_form.parquet",
-            "iqr_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_function.parquet",
+            "median_form": f"{BASE_URL}/main/data/global/median_form.parquet",
+            "median_function": f"{BASE_URL}/main/data/global/median_function.parquet",
+            "iqr_form": f"{BASE_URL}/main/data/global/iqr_form.parquet",
+            "iqr_function": f"{BASE_URL}/main/data/global/iqr_function.parquet",
             # locally specific files
-            "accessibility": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/accessibility.joblib",
-            "air_quality_predictor": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/air_quality_predictor_nc_urbanities.pickle",
-            "default_data": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/default_data.parquet",
-            "empty_lsoa": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/empty_lsoa.parquet",
-            "empty": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/empty.parquet",
-            "house_price_predictor": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/house_price_predictor_england_no_london.pickle",
-            "lsoa_baseline": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/lsoa_baseline.parquet",
-            "oa_area": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_area.parquet",
-            "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_key.parquet",
-            "oa_lsoa": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_lsoa.parquet",
-            "oa_order": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/oa_order.parquet",
-            "matrix": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/matrix.parquet",
-            "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/air_quality_model.joblib",
-            "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear/house_price_model.joblib",
+            "accessibility": f"{BASE_URL}/main/data/tyne_and_wear/accessibility.joblib",
+            "air_quality_predictor": f"{BASE_URL}/main/data/tyne_and_wear/air_quality_predictor_nc_urbanities.pickle",
+            "default_data": f"{BASE_URL}/main/data/tyne_and_wear/default_data.parquet",
+            "empty_lsoa": f"{BASE_URL}/main/data/tyne_and_wear/empty_lsoa.parquet",
+            "empty": f"{BASE_URL}/main/data/tyne_and_wear/empty.parquet",
+            "house_price_predictor": f"{BASE_URL}/main/data/tyne_and_wear/house_price_predictor_england_no_london.pickle",
+            "lsoa_baseline": f"{BASE_URL}/main/data/tyne_and_wear/lsoa_baseline.parquet",
+            "oa_area": f"{BASE_URL}/main/data/tyne_and_wear/oa_area.parquet",
+            "oa_key": f"{BASE_URL}/main/data/tyne_and_wear/oa_key.parquet",
+            "oa_lsoa": f"{BASE_URL}/main/data/tyne_and_wear/oa_lsoa.parquet",
+            "oa_order": f"{BASE_URL}/main/data/tyne_and_wear/oa_order.parquet",
+            "matrix": f"{BASE_URL}/main/data/tyne_and_wear/matrix.parquet",
+            "air_quality_model": f"{BASE_URL}/main/data/tyne_and_wear/air_quality_model.joblib",
+            "house_price_model": f"{BASE_URL}/main/data/tyne_and_wear/house_price_model.joblib",
         },
     },
     "tyne_and_wear_hex": {
@@ -74,19 +77,19 @@ files = {
         },
         "urls": {
             # globally shared files
-            "air_quality_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/air_quality_model.joblib",
-            "house_price_model": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/house_price_model.joblib",
-            "median_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_form.parquet",
-            "median_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/median_function.parquet",
-            "iqr_form": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_form.parquet",
-            "iqr_function": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/global/iqr_function.parquet",
+            "air_quality_model": f"{BASE_URL}/main/data/global/air_quality_model.joblib",
+            "house_price_model": f"{BASE_URL}/main/data/global/house_price_model.joblib",
+            "median_form": f"{BASE_URL}/main/data/global/median_form.parquet",
+            "median_function": f"{BASE_URL}/main/data/global/median_function.parquet",
+            "iqr_form": f"{BASE_URL}/main/data/global/iqr_form.parquet",
+            "iqr_function": f"{BASE_URL}/main/data/global/iqr_function.parquet",
             # locally specific files
-            "accessibility": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/accessibility.joblib",
-            "matrix": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/matrix.parquet",
-            "default_data": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/default_data.parquet",
-            "empty": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/empty.parquet",
-            "oa_area": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/oa_area.parquet",
-            "oa_key": "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine/raw/main/data/tyne_and_wear_hex/oa_key.parquet",
+            "accessibility": f"{BASE_URL}/main/data/tyne_and_wear_hex/accessibility.joblib",
+            "matrix": f"{BASE_URL}/main/data/tyne_and_wear_hex/matrix.parquet",
+            "default_data": f"{BASE_URL}/main/data/tyne_and_wear_hex/default_data.parquet",
+            "empty": f"{BASE_URL}/main/data/tyne_and_wear_hex/empty.parquet",
+            "oa_area": f"{BASE_URL}/main/data/tyne_and_wear_hex/oa_area.parquet",
+            "oa_key": f"{BASE_URL}/main/data/tyne_and_wear_hex/oa_key.parquet",
         },
     },
 }
