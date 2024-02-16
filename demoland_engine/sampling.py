@@ -218,7 +218,6 @@ def get_signature_values(
     oa_area = FILEVAULT["oa_area"].area
     default_data = FILEVAULT["default_data"]
 
-
     if signature_type is not None:
         signature_type = SIGS[signature_type]
     orig_type = oa_key.primary_type[oa_code]
@@ -256,7 +255,7 @@ def get_signature_values(
         defaults = default_data.loc[oa_code][median_function.columns]
 
     # population
-    if use:
+    if not pd.isna(use):
         defaults = _populations(defaults, index=use)
 
     jobs = [
@@ -271,13 +270,13 @@ def get_signature_values(
     ]
 
     # greenspace
-    if greenspace:
+    if not pd.isna(greenspace):
         defaults, newly_allocated_gs = _greenspace(defaults, greenspace)
         newly_allocated_gs = newly_allocated_gs * oa_area[oa_code]
     else:
         newly_allocated_gs = 0
 
-    if job_types:
+    if not pd.isna(job_types):
         defaults = _job_types(defaults, job_types)
 
     orig_n_jobs = default_data.loc[oa_code][jobs].sum()
