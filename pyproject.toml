@@ -32,6 +32,7 @@ dependencies = [
 
 [project.optional-dependencies]
 api = ["fastapi", "uvicorn"]
+test = ["pytest"]
 
 [project.urls]
 Home = "https://github.com/Urban-Analytics-Technology-Platform/demoland-engine"

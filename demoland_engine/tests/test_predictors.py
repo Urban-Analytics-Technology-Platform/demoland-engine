@@ -3,6 +3,7 @@ import demoland_engine
 
 
 def test_from_empty():
+    demoland_engine.data.change_area("tyne_and_wear")
     df = demoland_engine.get_empty()
     default = demoland_engine.get_indicators(df)
     expected = {
@@ -52,6 +53,7 @@ def test_from_empty():
 
 
 def test_from_adapted():
+    demoland_engine.data.change_area("tyne_and_wear")
     df = demoland_engine.get_empty()
     df.loc["E00042786"] = [3, 0.4, 0.2, 0.8]
     result = demoland_engine.get_indicators(df, random_seed=0)
