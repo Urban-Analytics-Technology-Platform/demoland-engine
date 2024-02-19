@@ -180,7 +180,7 @@ def pyodide_convertor(fname, action, pup):
             )
         fname_base = fname.split(".")[0]
         new_fname = f"{fname_base}_pyodide.joblib"
-        joblib.dump(new_fname, model)
+        joblib.dump(model, new_fname)
         return new_fname
     except ImportError:
         return fname
