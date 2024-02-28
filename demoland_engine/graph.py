@@ -180,11 +180,7 @@ def read_parquet(path, **kwargs):
         deserialized Graph
     """
     adjacency, transformation = _read_parquet(path, **kwargs)
-    # recreate index to ensure proper conversion to sparse
-    adjacency.index = pd.MultiIndex.from_tuples(
-        adjacency.index.to_flat_index(), names=["focal", "neighbor"]
-    )
-    return Graph(adjacency, transformation, is_sorted=True)
+    return Graph(adjacency, transformation, is_sorted=False)
 
 
 def _read_parquet(source, **kwargs):
