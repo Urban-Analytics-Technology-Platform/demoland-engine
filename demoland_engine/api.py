@@ -52,7 +52,7 @@ def scenario_calc(scenario: dict, model_identifier: str) -> dict:
 
     df = get_empty()
     for oa_code, vals in scenario.items():
-        df.loc[oa_code] = list(vals.values())
+        df.loc[oa_code] = vals
 
     pred = get_indicators(df, random_seed=42)
     sig = data.FILEVAULT["oa_key"].primary_type.copy()
